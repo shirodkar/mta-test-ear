@@ -1,0 +1,156 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.acme.ecommerce.web.external:mta-test-ear:ear:5.0.2
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-ear-plugin is missing. @ line 31, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] mta-test-app                                                       [pom]
+[INFO] mta-test web                                                       [war]
+[INFO] mta-test-ear                                                       [ear]
+[INFO] 
+[INFO] ------------< com.acme.ecommerce.web.external:mta-test-app >------------
+[INFO] Building mta-test-app 5.0.2                                        [1/3]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.7.0:tree (default-cli) @ mta-test-app ---
+[INFO] com.acme.ecommerce.web.external:mta-test-app:pom:5.0.2
+[INFO] +- javax:javaee-api:jar:7.0:provided
+[INFO] |  \- com.sun.mail:javax.mail:jar:1.5.0:provided
+[INFO] |     \- javax.activation:activation:jar:1.1:provided
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.slf4j:slf4j-api:jar:1.7.25:compile
+[INFO] 
+[INFO] ------------< com.acme.ecommerce.web.external:mta-test-web >------------
+[INFO] Building mta-test web 5.0.2                                        [2/3]
+[INFO]   from mta-test-web/pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.7.0:tree (default-cli) @ mta-test-web ---
+[INFO] com.acme.ecommerce.web.external:mta-test-web:war:5.0.2
+[INFO] +- com.acme.core-components.environment:environment-api:jar:2.0.0:compile
+[INFO] +- com.acme.core-components.environment:environment-client:jar:2.0.0:compile
+[INFO] +- com.acme.email:ODEmail:jar:2.0.0:compile
+[INFO] +- com.acme.enterprise.email:system-email-client:jar:2.0.0:compile
+[INFO] |  +- com.acme.enterprise.email:system-email-wsdl:jar:2.0.0:compile
+[INFO] |  +- com.acme.core-components:common-runtime:jar:4.0.0:compile
+[INFO] |  |  \- com.acme.core-components:common-annotations:jar:3.0.0:compile
+[INFO] |  \- com.acme.core-components:common-dto:jar:3.0.0:compile
+[INFO] +- com.acme.web.external.commonjars:framework:jar:2.0.0:compile
+[INFO] |  \- commons-lang:commons-lang:jar:2.6:compile
+[INFO] +- com.acme.web.external.commonjars:websecurity-library:jar:2.0.0:compile
+[INFO] +- com.acme.jee.rest:common-error-handling:jar:1.3.0:compile
+[INFO] +- com.acme.jee.rest:json-validator:jar:1.1.1:compile
+[INFO] +- org.json:json:jar:20240303:compile
+[INFO] +- io.swagger.core.v3:swagger-annotations:jar:2.1.4:compile
+[INFO] +- com.googlecode.json-simple:json-simple:jar:1.1:compile
+[INFO] +- org.apache.logging.log4j:log4j-api:jar:2.17.0:compile
+[INFO] +- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.17.0:compile
+[INFO] +- org.apache.logging.log4j:log4j-core:jar:2.17.0:compile
+[INFO] +- org.apache.logging.log4j:log4j-web:jar:2.17.0:compile
+[INFO] +- com.acme.jee.rest:api-utils:jar:1.0.0:compile
+[INFO] +- commons-beanutils:commons-beanutils:jar:1.9.4:compile
+[INFO] |  +- commons-logging:commons-logging:jar:1.2:compile
+[INFO] |  \- commons-collections:commons-collections:jar:3.2.2:compile
+[INFO] +- com.acme.jee.rest:jwt-util:jar:3.0.1:compile
+[INFO] |  +- io.jsonwebtoken:jjwt-api:jar:0.11.2:compile
+[INFO] |  +- io.jsonwebtoken:jjwt-impl:jar:0.11.2:runtime
+[INFO] |  +- io.jsonwebtoken:jjwt-jackson:jar:0.11.2:runtime
+[INFO] |  +- com.auth0:java-jwt:jar:4.4.0:compile
+[INFO] |  +- com.auth0:jwks-rsa:jar:0.22.0:compile
+[INFO] |  |  \- com.google.guava:guava:jar:30.0-jre:runtime
+[INFO] |  |     +- com.google.guava:failureaccess:jar:1.0.1:runtime
+[INFO] |  |     +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:runtime
+[INFO] |  |     +- com.google.code.findbugs:jsr305:jar:3.0.2:runtime
+[INFO] |  |     +- org.checkerframework:checker-qual:jar:3.5.0:runtime
+[INFO] |  |     +- com.google.errorprone:error_prone_annotations:jar:2.3.4:runtime
+[INFO] |  |     \- com.google.j2objc:j2objc-annotations:jar:1.3:runtime
+[INFO] |  \- org.apache.commons:commons-lang3:jar:3.12.0:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-core:jar:2.16.0:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-databind:jar:2.16.0:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-annotations:jar:2.16.0:compile
+[INFO] +- org.jboss.resteasy:resteasy-client:jar:3.11.1.Final:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:2.0.1.Final:provided
+[INFO] |  +- org.jboss.resteasy:resteasy-jaxrs:jar:3.11.1.Final:provided
+[INFO] |  |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final:provided
+[INFO] |  |  +- org.reactivestreams:reactive-streams:jar:1.0.3:provided
+[INFO] |  |  +- jakarta.validation:jakarta.validation-api:jar:2.0.2:provided
+[INFO] |  |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:2.0.1.Final:provided
+[INFO] |  |  +- com.sun.activation:jakarta.activation:jar:1.2.1:provided
+[INFO] |  |  \- com.github.stephenc.jcip:jcip-annotations:jar:1.0-1:provided
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.3.2.Final:provided
+[INFO] |  +- org.apache.httpcomponents:httpclient:jar:4.5.10:provided
+[INFO] |  |  \- org.apache.httpcomponents:httpcore:jar:4.4.12:provided
+[INFO] |  +- commons-codec:commons-codec:jar:1.13:provided
+[INFO] |  \- commons-io:commons-io:jar:2.5:provided
+[INFO] +- com.acme.customer-api:validate-account-client:jar:2.0.4:compile
+[INFO] |  +- com.acme.jee.rest:rest-client-helper:jar:1.0.0:compile
+[INFO] |  +- io.github.openfeign:feign-jaxrs:jar:11.0:compile
+[INFO] |  |  \- io.github.openfeign:feign-core:jar:11.0:compile
+[INFO] |  \- io.github.openfeign:feign-jackson:jar:11.0:compile
+[INFO] +- com.acme.ecommerce.web.external:transittime-client:jar:1.0.1:compile
+[INFO] +- com.acme.ecommerce.web.external:mta-test-client:jar:3.0.1:compile
+[INFO] +- org.hamcrest:hamcrest:jar:2.2:test
+[INFO] +- org.junit.jupiter:junit-jupiter:jar:5.10.2:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-api:jar:5.10.2:test
+[INFO] |  |  +- org.opentest4j:opentest4j:jar:1.3.0:test
+[INFO] |  |  +- org.junit.platform:junit-platform-commons:jar:1.10.2:test
+[INFO] |  |  \- org.apiguardian:apiguardian-api:jar:1.1.2:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-params:jar:5.10.2:test
+[INFO] |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.10.2:test
+[INFO] |     \- org.junit.platform:junit-platform-engine:jar:1.10.2:test
+[INFO] +- org.mockito:mockito-junit-jupiter:jar:4.11.0:test
+[INFO] |  \- org.mockito:mockito-core:jar:4.11.0:test
+[INFO] |     +- net.bytebuddy:byte-buddy-agent:jar:1.12.19:test
+[INFO] |     \- org.objenesis:objenesis:jar:3.3:test
+[INFO] +- org.mockito:mockito-inline:jar:4.11.0:test
+[INFO] +- org.assertj:assertj-core:jar:3.24.2:test
+[INFO] |  \- net.bytebuddy:byte-buddy:jar:1.12.21:test
+[INFO] +- org.projectlombok:lombok:jar:1.18.36:compile (optional)
+[INFO] +- com.acme.common.libraries:jboss-recaptcha-validator:jar:1.1.0:compile
+[INFO] |  +- com.acme.common.libraries:recaptcha-verifier:jar:1.0.4:compile
+[INFO] |  \- com.acme.core-components:jboss-vault-library:jar:1.0.0:compile
+[INFO] |     \- com.acme.core-components.secure-storage:account-secure-passwords:jar:2.0.0:compile
+[INFO] |        +- com.acme.core-components:common-domain:jar:3.0.0:compile
+[INFO] |        |  \- com.acme.core-components:common-util:jar:3.0.0:compile
+[INFO] |        \- com.acme.core-components:common-persistence:jar:1.0.0:compile
+[INFO] +- javax:javaee-api:jar:7.0:provided
+[INFO] |  \- com.sun.mail:javax.mail:jar:1.5.0:provided
+[INFO] |     \- javax.activation:activation:jar:1.1:provided
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.slf4j:slf4j-api:jar:1.7.25:compile
+[INFO] 
+[INFO] ------------< com.acme.ecommerce.web.external:mta-test-ear >------------
+[INFO] Building mta-test-ear 5.0.2                                        [3/3]
+[INFO]   from mta-test-ear/pom.xml
+[INFO] --------------------------------[ ear ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.7.0:tree (default-cli) @ mta-test-ear ---
+[INFO] com.acme.ecommerce.web.external:mta-test-ear:ear:5.0.2
+[INFO] +- com.acme.ecommerce.web.external:mta-test-web:war:5.0.2:compile
+[INFO] +- javax:javaee-api:jar:7.0:provided
+[INFO] |  \- com.sun.mail:javax.mail:jar:1.5.0:provided
+[INFO] |     \- javax.activation:activation:jar:1.1:provided
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.slf4j:slf4j-api:jar:1.7.25:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for mta-test-app 5.0.2:
+[INFO] 
+[INFO] mta-test-app ....................................... SUCCESS [  0.360 s]
+[INFO] mta-test web ....................................... SUCCESS [  0.183 s]
+[INFO] mta-test-ear ....................................... SUCCESS [  0.008 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.689 s
+[INFO] Finished at: 2026-07-16T14:53:34-04:00
+[INFO] ------------------------------------------------------------------------

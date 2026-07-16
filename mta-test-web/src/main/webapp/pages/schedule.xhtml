@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>#{msg['mta-test.form.title']} - #{msg['app.title']}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="css/mta-test.css"/>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <header class="header">
+            <h1>#{msg['app.company']}</h1>
+            <h2>#{msg['mta-test.form.title']}</h2>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><h:link outcome="/index" value="Home"/></li>
+                <li><h:link outcome="/pages/schedule" value="Schedule MtaTest" styleClass="active"/></li>
+                <li><h:link outcome="/pages/status" value="Check Status"/></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h:form id="mta-testForm" styleClass="mta-test-form">
+                <h:messages globalOnly="true" styleClass="messages" errorClass="error-msg"
+                            infoClass="info-msg" warnClass="warn-msg"/>
+
+                <!-- Account Information -->
+                <fieldset>
+                    <legend>Account Information</legend>
+
+                    <div class="form-group">
+                        <h:outputLabel for="accountNumber" value="#{msg['mta-test.form.account']}*"/>
+                        <h:inputText id="accountNumber" value="#{mtaTestBean.request.accountNumber}"
+                                     required="true" requiredMessage="#{msg['validation.required']}"
+                                     validatorMessage="#{msg['validation.account.invalid']}"
+                                     styleClass="form-control">
+                            <f:validateLength minimum="7" maximum="10"/>
+                        </h:inputText>
+                        <h:message for="accountNumber" styleClass="field-error"/>
+                    </div>
+                </fieldset>
+
+                <!-- Requester Information -->
+                <fieldset>
+                    <legend>Requester Information</legend>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <h:outputLabel for="requesterName" value="#{msg['mta-test.form.name']}*"/>
+                            <h:inputText id="requesterName" value="#{mtaTestBean.request.requesterName}"
+                                         required="true" requiredMessage="#{msg['validation.required']}"
+                                         styleClass="form-control"/>
+                            <h:message for="requesterName" styleClass="field-error"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="requesterEmail" value="#{msg['mta-test.form.email']}"/>
+                            <h:inputText id="requesterEmail" value="#{mtaTestBean.request.requesterEmail}"
+                                         styleClass="form-control"/>
+                            <h:message for="requesterEmail" styleClass="field-error"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="requesterPhone" value="#{msg['mta-test.form.phone']}"/>
+                            <h:inputText id="requesterPhone" value="#{mtaTestBean.request.requesterPhone}"
+                                         styleClass="form-control"/>
+                            <h:message for="requesterPhone" styleClass="field-error"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- MtaTest Details -->
+                <fieldset>
+                    <legend>MtaTest Details</legend>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <h:outputLabel for="mta-testDate" value="#{msg['mta-test.form.date']}*"/>
+                            <h:inputText id="mta-testDate" value="#{mtaTestBean.request.mtaTestDate}"
+                                         required="true" requiredMessage="#{msg['validation.required']}"
+                                         styleClass="form-control" type="date">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:inputText>
+                            <h:message for="mta-testDate" styleClass="field-error"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="readyTime" value="#{msg['mta-test.form.readyTime']}*"/>
+                            <h:inputText id="readyTime" value="#{mtaTestBean.request.readyTime}"
+                                         required="true" requiredMessage="#{msg['validation.required']}"
+                                         styleClass="form-control" placeholder="HH:mm"/>
+                            <h:message for="readyTime" styleClass="field-error"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="closeTime" value="#{msg['mta-test.form.closeTime']}*"/>
+                            <h:inputText id="closeTime" value="#{mtaTestBean.request.closeTime}"
+                                         required="true" requiredMessage="#{msg['validation.required']}"
+                                         styleClass="form-control" placeholder="HH:mm"/>
+                            <h:message for="closeTime" styleClass="field-error"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Shipper Address -->
+                <fieldset>
+                    <legend>Shipper Address</legend>
+
+                    <div class="form-group">
+                        <h:outputLabel for="shipperName" value="#{msg['mta-test.form.shipperName']}*"/>
+                        <h:inputText id="shipperName" value="#{mtaTestBean.request.shipperName}"
+                                     required="true" requiredMessage="#{msg['validation.required']}"
+                                     styleClass="form-control"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="addressLine1" value="#{msg['mta-test.form.address']}*"/>
+                        <h:inputText id="addressLine1" value="#{mtaTestBean.request.shipperAddress.addressLine1}"
+                                     required="true" requiredMessage="#{msg['validation.required']}"
+                                     styleClass="form-control"/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <h:outputLabel for="city" value="#{msg['mta-test.form.city']}*"/>
+                            <h:inputText id="city" value="#{mtaTestBean.request.shipperAddress.city}"
+                                         required="true" styleClass="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="state" value="#{msg['mta-test.form.state']}*"/>
+                            <h:inputText id="state" value="#{mtaTestBean.request.shipperAddress.state}"
+                                         required="true" styleClass="form-control" maxlength="2"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="zipCode" value="#{msg['mta-test.form.zip']}*"/>
+                            <h:inputText id="zipCode" value="#{mtaTestBean.request.shipperAddress.zipCode}"
+                                         required="true" styleClass="form-control" maxlength="5"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Special Instructions -->
+                <fieldset>
+                    <legend>Additional Information</legend>
+
+                    <div class="form-group">
+                        <h:outputLabel for="destinationZip" value="Destination ZIP Code"/>
+                        <h:inputText id="destinationZip" value="#{mtaTestBean.request.destinationZip}"
+                                     styleClass="form-control" maxlength="5"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="specialInstructions" value="#{msg['mta-test.form.specialInstructions']}"/>
+                        <h:inputTextarea id="specialInstructions"
+                                         value="#{mtaTestBean.request.specialInstructions}"
+                                         styleClass="form-control" rows="3" cols="50"/>
+                    </div>
+                </fieldset>
+
+                <!-- Submit Buttons -->
+                <div class="form-actions">
+                    <h:commandButton value="#{msg['mta-test.form.submit']}"
+                                     action="#{mtaTestBean.submitMtaTest}"
+                                     styleClass="btn btn-primary"/>
+                    <h:commandButton value="#{msg['mta-test.form.cancel']}"
+                                     action="#{mtaTestBean.cancel}"
+                                     immediate="true"
+                                     styleClass="btn btn-secondary"/>
+                </div>
+            </h:form>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; ACME, Inc. All rights reserved.</p>
+        </footer>
+    </div>
+</h:body>
+
+</html>

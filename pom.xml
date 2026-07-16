@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ================================== -->
+    <parent>
+        <groupId>com.acme.maven</groupId>
+        <artifactId>acme-common</artifactId>
+        <version>3.1.1</version>
+    </parent>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <groupId>com.acme.ecommerce.web.external</groupId>
+    <artifactId>mta-test-app</artifactId>
+    <version>5.0.2</version>
+    <name>mta-test-app</name>
+    <description>mta-test-app for WAR and EAR CREATION</description>
+    <packaging>pom</packaging>
+    <!-- ================================== -->
+    <modules>
+        <module>mta-test-web</module>
+        <module>mta-test-ear</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mta-test</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.common.web</groupId>
+                <artifactId>internet-custom-jsf-taglib</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.email</groupId>
+                <artifactId>ODEmail</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.web.external.commonjars</groupId>
+                <artifactId>framework</artifactId>
+                <version>2.0.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.freight.mta-test.external.ws</groupId>
+                <artifactId>mta-test-external-ws-client</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.web.external.commonjars</groupId>
+                <artifactId>websecurity-library</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.acme.ecommerce.web.external</groupId>
+                <artifactId>mta-test-client</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
+            <!-- 		<dependency>
+                       <groupId>com.acme.customer-api</groupId>
+                       <artifactId>validate-account-client</artifactId>
+                       <version>1.0.1</version>
+                   </dependency>
+                 -->
+
+        </dependencies>
+    </dependencyManagement>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <properties>
+        <project.scm.root>/ecommerce/web/external/mta-test-app/trunk</project.scm.root>
+        <!-- used by children so they don't have to type it -->
+        <!-- <source.path>/ecommerce/web/external/mta-test-app/trunk</source.path> -->
+        <source.path>od-dev/mta-test/mta-test-app.git</source.path>
+        <scm.host.url>https://git.corp.acme.com/</scm.host.url>
+    </properties>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <distributionManagement>
+        <site>
+            <!-- Have to put this here instead of parent because maven (bug) inserts
+                ${project.artifactId} value twice -->
+            <id>sites</id>
+            <url>dav:http://ci:9190/sites/${project.groupId}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
+    <!-- <scm> <connection>scm:svn:${scm.host.url}/svn/${scm.root}/${source.path}</connection>
+        <developerConnection>scm:svn:${scm.host.url}/svn/${scm.root}/${source.path}</developerConnection>
+        <tag>HEAD</tag> <url>${scm.host.url}/viewvc/${scm.root}/${source.path}</url>
+        </scm> -->
+
+    <scm>
+        <connection>scm:git:${scm.host.url}/${source.path}</connection>
+        <developerConnection>scm:git:${scm.host.url}/${source.path}</developerConnection>
+        <tag>HEAD</tag>
+        <url>${scm.host.url}/${source.path}</url>
+    </scm>
+
+</project>

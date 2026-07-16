@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.acme.stubs</groupId>
+    <artifactId>acme-stubs-reactor</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>ACME Stub Dependencies Reactor</name>
+    <description>Dummy stub implementations of internal ACME dependencies for local builds</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Modules listed in dependency order -->
+    <modules>
+        <!-- Phase 0: Parent POM -->
+        <module>acme-common</module>
+
+        <!-- Phase 1: Leaf modules (no internal ACME dependencies) -->
+        <module>common-annotations</module>
+        <module>common-dto</module>
+        <module>common-util</module>
+        <module>common-persistence</module>
+        <module>environment-api</module>
+        <module>environment-client</module>
+        <module>od-email</module>
+        <module>system-email-wsdl</module>
+        <module>websecurity-library</module>
+        <module>common-error-handling</module>
+        <module>api-utils</module>
+        <module>rest-client-helper</module>
+        <module>transittime-client</module>
+        <module>mta-test-client</module>
+        <module>recaptcha-verifier</module>
+        <module>internet-custom-jsf-taglib</module>
+        <module>mta-test-external-ws-client</module>
+
+        <!-- Phase 2: Depend on Phase 1 -->
+        <module>common-domain</module>
+        <module>common-runtime</module>
+        <module>json-validator</module>
+        <module>jwt-util</module>
+        <module>framework</module>
+
+        <!-- Phase 3: Depend on Phase 2 -->
+        <module>account-secure-passwords</module>
+        <module>system-email-client</module>
+        <module>validate-account-client</module>
+
+        <!-- Phase 4: Depend on Phase 3 -->
+        <module>jboss-vault-library</module>
+
+        <!-- Phase 5: Depend on Phase 4 -->
+        <module>jboss-recaptcha-validator</module>
+    </modules>
+
+</project>

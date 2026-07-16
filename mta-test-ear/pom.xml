@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ================================== -->
+    <parent>
+        <groupId>com.acme.ecommerce.web.external</groupId>
+        <artifactId>mta-test-app</artifactId>
+        <version>5.0.2</version>
+    </parent>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <artifactId>mta-test-ear</artifactId>
+    <packaging>ear</packaging>
+    <name>mta-test-ear</name>
+    <description>mta-test-ear EAR CREATION</description>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mta-test-web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <webModule>
+                            <groupId>com.acme.ecommerce.web.external</groupId>
+                            <artifactId>mta-test-web</artifactId>
+                            <context-root>/mta-test</context-root>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <properties>
+        <source.path>${project.scm.root}/${project.artifactId}</source.path>
+        <scm.host.url>https://git.corp.acme.com/</scm.host.url>
+    </properties>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <distributionManagement>
+        <site>
+            <!-- Have to put this here instead of parent because maven (bug) inserts
+                      ${project.artifactId} value twice -->
+            <id>sites</id>
+            <url>dav:http://ci:9190/sites/${project.groupId}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
+    <!--   <scm>
+        <connection>scm:svn:${scm.host.url}/svn/${scm.root}/${source.path}</connection>
+        <developerConnection>scm:svn:${scm.host.url}/svn/${scm.root}/${source.path}</developerConnection>
+        <tag>HEAD</tag>
+        <url>${scm.host.url}/viewvc/${scm.root}/${source.path}</url>
+      </scm>
+       -->
+
+    <scm>
+        <connection>scm:git:${scm.host.url}/${source.path}</connection>
+        <developerConnection>scm:git:${scm.host.url}/${source.path}</developerConnection>
+        <tag>HEAD</tag>
+        <url>${scm.host.url}/${source.path}</url>
+    </scm>
+
+    <!-- ================================== -->
+</project>

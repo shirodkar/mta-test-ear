@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ================================== -->
+    <parent>
+        <groupId>com.acme.ecommerce.web.external</groupId>
+        <artifactId>mta-test-app</artifactId>
+        <version>5.0.2</version>
+    </parent>
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <artifactId>mta-test-web</artifactId>
+    <packaging>war</packaging>
+    <name>mta-test web</name>
+    <description>mta-test WEB APPLICATION</description>
+    <!-- ================================== -->
+    <properties>
+        <source.path>${project.scm.root}/${project.artifactId}</source.path>
+        <swagger.version>2.0.10</swagger.version>
+        <scm.host.url>https://git.corp.acme.com/</scm.host.url>
+        <mockito.version>4.11.0</mockito.version>
+        <jackson-library.version>2.16.0</jackson-library.version>
+        <resteasy.version>3.11.1.Final</resteasy.version>
+    </properties>
+    <!-- ================================== -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>20240303</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.acme.core-components.environment</groupId>
+            <artifactId>environment-api</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.core-components.environment</groupId>
+            <artifactId>environment-client</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.acme.email</groupId>
+            <artifactId>ODEmail</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.enterprise.email</groupId>
+            <artifactId>system-email-client</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.web.external.commonjars</groupId>
+            <artifactId>framework</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- <dependency> <groupId>com.acme.freight.mta-test.external.ws</groupId>
+            <artifactId>mta-test-external-ws-client</artifactId> </dependency> -->
+
+        <dependency>
+            <groupId>com.acme.web.external.commonjars</groupId>
+            <artifactId>websecurity-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.jee.rest</groupId>
+            <artifactId>common-error-handling</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.jee.rest</groupId>
+            <artifactId>json-validator</artifactId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.json</groupId>
+                    <artifactId>json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- Log4j2 dependencies -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+        </dependency>
+
+        <!-- Timestamp and other utilities -->
+        <dependency>
+            <groupId>com.acme.jee.rest</groupId>
+            <artifactId>api-utils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.acme.jee.rest</groupId>
+            <artifactId>jwt-util</artifactId>
+            <version>3.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>${resteasy.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.acme.customer-api</groupId>
+            <artifactId>validate-account-client</artifactId>
+            <version>2.0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>jsr311-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.acme.ecommerce.web.external</groupId>
+            <artifactId>transittime-client</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.acme.ecommerce.web.external</groupId>
+            <artifactId>mta-test-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.acme.common.libraries</groupId>
+            <artifactId>jboss-recaptcha-validator</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+    </dependencies>
+    <!-- ================================== -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.openapitools.swagger</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>2.1.4</version>
+                <configuration>
+                    <resourcePackages>
+                        <resourcePackage>
+                            com.acme.mtatest.webservice
+                        </resourcePackage>
+                    </resourcePackages>
+                    <outputDirectory>${basedir}/target/</outputDirectory>
+                    <outputFilename>swagger</outputFilename>
+                    <outputFormats>JSON,YAML</outputFormats>
+                    <prettyPrint>true</prettyPrint>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.36</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+        </plugins>
+    </build>
+    <!-- ================================== -->
+    <!-- ================================== -->
+
+    <!-- <scm> <connection>scm:git:${scm.host.url}/${source.path}</connection>
+        <developerConnection>scm:git:${scm.host.url}/${source.path}</developerConnection>
+        <tag>HEAD</tag> <url>${scm.host.url}/${source.path}</url> </scm> -->
+
+    <scm>
+        <connection>scm:git:${scm.host.url}/${source.path}</connection>
+        <developerConnection>scm:git:${scm.host.url}/${source.path}</developerConnection>
+        <tag>HEAD</tag>
+        <url>${scm.host.url}/${source.path}</url>
+    </scm>
+
+    <!-- ================================== -->
+    <!-- ================================== -->
+    <distributionManagement>
+        <site>
+            <id>sites</id>
+            <url>dav:http://ci:9190/sites/${project.groupId}/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
+
+    <!-- ================================== -->
+</project>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Check MtaTest Status - #{msg['app.title']}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="css/mta-test.css"/>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <header class="header">
+            <h1>#{msg['app.company']}</h1>
+            <h2>Check MtaTest Status</h2>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><h:link outcome="/index" value="Home"/></li>
+                <li><h:link outcome="/pages/schedule" value="Schedule MtaTest"/></li>
+                <li><h:link outcome="/pages/status" value="Check Status" styleClass="active"/></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h:form id="statusForm" styleClass="mta-test-form">
+                <h:messages globalOnly="true" styleClass="messages"/>
+
+                <fieldset>
+                    <legend>Lookup MtaTest</legend>
+
+                    <div class="form-group">
+                        <h:outputLabel for="confirmationNumber" value="Confirmation Number*"/>
+                        <h:inputText id="confirmationNumber"
+                                     value="#{mtaTestBean.lookupConfirmationNumber}"
+                                     required="true"
+                                     requiredMessage="Confirmation number is required"
+                                     styleClass="form-control"
+                                     placeholder="e.g., PU12345678"/>
+                        <h:message for="confirmationNumber" styleClass="field-error"/>
+                    </div>
+
+                    <div class="form-actions">
+                        <h:commandButton value="Check Status"
+                                         action="#{mtaTestBean.lookupMtaTest}"
+                                         styleClass="btn btn-primary"/>
+                    </div>
+                </fieldset>
+            </h:form>
+
+            <h:panelGroup rendered="#{mtaTestBean.response != null}">
+                <div class="confirmation-panel">
+                    <h3>MtaTest Details</h3>
+                    <div class="confirmation-details">
+                        <div class="detail-row">
+                            <span class="label">Confirmation Number:</span>
+                            <span class="value">#{mtaTestBean.response.confirmationNumber}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Status:</span>
+                            <span class="value status-#{mtaTestBean.response.status.toLowerCase()}">
+                                #{mtaTestBean.response.status}
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">PRO Number:</span>
+                            <span class="value">#{mtaTestBean.response.proNumber}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Scheduled Date:</span>
+                            <span class="value">
+                                <h:outputText value="#{mtaTestBean.response.scheduledDate}">
+                                    <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                                </h:outputText>
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Time Window:</span>
+                            <span class="value">#{mtaTestBean.response.estimatedTimeWindow}</span>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; ACME, Inc. All rights reserved.</p>
+        </footer>
+    </div>
+</h:body>
+
+</html>

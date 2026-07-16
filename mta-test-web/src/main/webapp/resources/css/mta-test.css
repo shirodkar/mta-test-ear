@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header {
+    background-color: #cc0000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.header h2 {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* Navigation */
+.nav {
+    background-color: #333;
+    padding: 0;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+}
+
+.nav ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav ul li a:hover,
+.nav ul li a.active {
+    background-color: #cc0000;
+}
+
+/* Content */
+.content {
+    background: white;
+    padding: 30px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    min-height: 400px;
+}
+
+/* Welcome Panel */
+.welcome-panel {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.welcome-panel h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.welcome-panel p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn-primary {
+    background-color: #cc0000;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #aa0000;
+}
+
+.btn-secondary {
+    background-color: #666;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+}
+
+.action-buttons {
+    margin-top: 20px;
+}
+
+/* Form Styles */
+.mta-test-form fieldset {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.mta-test-form legend {
+    font-weight: bold;
+    color: #cc0000;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #cc0000;
+    outline: none;
+    box-shadow: 0 0 3px rgba(204, 0, 0, 0.3);
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Messages */
+.messages {
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    color: #c00;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.info-msg {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    color: #2e7d32;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.warn-msg {
+    background-color: #fff8e1;
+    border: 1px solid #ffecb3;
+    color: #f57f17;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.field-error {
+    color: #c00;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* Confirmation Panel */
+.confirmation-panel {
+    text-align: center;
+    padding: 30px;
+}
+
+.success-icon {
+    font-size: 48px;
+    color: #2e7d32;
+    margin-bottom: 15px;
+}
+
+.confirmation-details {
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-row .label {
+    flex: 0 0 200px;
+    font-weight: bold;
+    color: #555;
+}
+
+.detail-row .value {
+    flex: 1;
+}
+
+/* Status Colors */
+.status-scheduled {
+    color: #1565c0;
+    font-weight: bold;
+}
+
+.status-cancelled {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* Error Panel */
+.error-panel {
+    text-align: center;
+    padding: 40px;
+}
+
+.error-panel h3 {
+    color: #c00;
+    margin-bottom: 15px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 15px;
+    color: #999;
+    font-size: 12px;
+    border-top: 1px solid #ddd;
+}

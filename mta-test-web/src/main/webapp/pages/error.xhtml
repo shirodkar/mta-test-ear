@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <title>Error - #{msg['app.title']}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="css/mta-test.css"/>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <header class="header">
+            <h1>#{msg['app.company']}</h1>
+            <h2>Error</h2>
+        </header>
+
+        <main class="content">
+            <div class="error-panel">
+                <h3>An error occurred</h3>
+                <p>We're sorry, but something went wrong. Please try again later.</p>
+
+                <div class="action-buttons">
+                    <h:link outcome="/index" styleClass="btn btn-primary">
+                        Return Home
+                    </h:link>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; ACME, Inc. All rights reserved.</p>
+        </footer>
+    </div>
+</h:body>
+
+</html>

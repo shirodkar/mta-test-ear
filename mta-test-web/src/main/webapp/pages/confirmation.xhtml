@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>#{msg['mta-test.confirmation.title']} - #{msg['app.title']}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="css/mta-test.css"/>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <header class="header">
+            <h1>#{msg['app.company']}</h1>
+            <h2>#{msg['mta-test.confirmation.title']}</h2>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><h:link outcome="/index" value="Home"/></li>
+                <li><h:link outcome="/pages/schedule" value="Schedule MtaTest"/></li>
+                <li><h:link outcome="/pages/status" value="Check Status"/></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <div class="confirmation-panel">
+                <div class="success-icon">&#10003;</div>
+                <h3>MtaTest Scheduled Successfully</h3>
+
+                <div class="confirmation-details">
+                    <div class="detail-row">
+                        <span class="label">#{msg['mta-test.confirmation.number']}:</span>
+                        <span class="value">#{mtaTestBean.response.confirmationNumber}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">#{msg['mta-test.confirmation.pro']}:</span>
+                        <span class="value">#{mtaTestBean.response.proNumber}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">#{msg['mta-test.confirmation.date']}:</span>
+                        <span class="value">
+                            <h:outputText value="#{mtaTestBean.response.scheduledDate}">
+                                <f:convertDateTime pattern="MMMM dd, yyyy"/>
+                            </h:outputText>
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">#{msg['mta-test.confirmation.time']}:</span>
+                        <span class="value">#{mtaTestBean.response.estimatedTimeWindow}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Service Center:</span>
+                        <span class="value">#{mtaTestBean.response.serviceCenterId}</span>
+                    </div>
+                    <h:panelGroup rendered="#{mtaTestBean.response.estimatedTransitDays != null}">
+                        <div class="detail-row">
+                            <span class="label">Estimated Transit Days:</span>
+                            <span class="value">#{mtaTestBean.response.estimatedTransitDays}</span>
+                        </div>
+                    </h:panelGroup>
+                </div>
+
+                <div class="action-buttons">
+                    <h:link outcome="/pages/schedule" styleClass="btn btn-primary">
+                        Schedule Another MtaTest
+                    </h:link>
+                    <h:link outcome="/index" styleClass="btn btn-secondary">
+                        Return Home
+                    </h:link>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; ACME, Inc. All rights reserved.</p>
+        </footer>
+    </div>
+</h:body>
+
+</html>

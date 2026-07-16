@@ -2,8 +2,20 @@ package com.acme.mtatest.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import com.acme.mtatest.model.TransitTimeResponse;
 import com.acme.mtatest.exception.MtaTestException;
@@ -15,6 +27,28 @@ import org.apache.logging.log4j.Logger;
 public class TransitTimeService {
 
     private static final Logger logger = LogManager.getLogger(TransitTimeService.class);
+    private static final String TRANSIT_TIME_API_BASE = System.getProperty(
+            "transittime.api.url", "http://localhost:8180");
+
+    private ResteasyClient resteasyClient;
+
+    @PostConstruct
+    public void init() {
+        resteasyClient = new ResteasyClientBuilder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectionPoolSize(10)
+                .build();
+        logger.info("RESTEasy client initialized for transit time API at {}", TRANSIT_TIME_API_BASE);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        if (resteasyClient != null) {
+            resteasyClient.close();
+            logger.info("RESTEasy client closed");
+        }
+    }
 
     public TransitTimeResponse estimateTransitTime(String originZip, String destinationZip,
                                                     Date shipDate, Double weight) {
@@ -27,8 +61,12 @@ public class TransitTimeService {
 
         logger.info("Calculating transit time from {} to {}", originZip, destinationZip);
 
-        // In production, this delegates to the transittime-client library
-        // which calls the ACME transit time API
+        TransitTimeResponse remoteResult = fetchTransitTimeFromApi(originZip, destinationZip, weight);
+        if (remoteResult != null) {
+            return remoteResult;
+        }
+
+        logger.info("Remote transit time API unavailable, using local calculation");
         int transitDays = calculateTransitDays(originZip, destinationZip);
 
         Date estimatedDelivery = calculateDeliveryDate(
@@ -41,6 +79,38 @@ public class TransitTimeService {
                 .destinationServiceCenter(resolveServiceCenter(destinationZip))
                 .serviceType(transitDays <= 2 ? "PRIORITY" : "STANDARD")
                 .build();
+    }
+
+    private TransitTimeResponse fetchTransitTimeFromApi(String originZip, String destinationZip, Double weight) {
+        try {
+            ResteasyWebTarget target = resteasyClient
+                    .target(TRANSIT_TIME_API_BASE)
+                    .path("/api/transit-time/calculate");
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("originZip", originZip);
+            payload.put("destinationZip", destinationZip);
+            if (weight != null) {
+                payload.put("weight", weight);
+            }
+
+            Response response = target.request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(payload));
+
+            try {
+                if (response.getStatus() == 200) {
+                    TransitTimeResponse result = response.readEntity(TransitTimeResponse.class);
+                    logger.info("Received transit time from remote API: {} days", result.getTransitDays());
+                    return result;
+                }
+                logger.warn("Transit time API returned status {}", response.getStatus());
+            } finally {
+                response.close();
+            }
+        } catch (Exception e) {
+            logger.debug("Could not reach transit time API: {}", e.getMessage());
+        }
+        return null;
     }
 
     private int calculateTransitDays(String originZip, String destinationZip) {

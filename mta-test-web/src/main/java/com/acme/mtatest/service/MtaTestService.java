@@ -7,9 +7,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.acme.ecommerce.mtatest.MtaTestClient;
+import com.acme.ecommerce.mtatest.MtaTestResult;
+import com.acme.ecommerce.mtatest.MtaTestScheduleRequest;
 import com.acme.mtatest.model.MtaTestRequest;
 import com.acme.mtatest.model.MtaTestResponse;
 import com.acme.mtatest.model.TransitTimeResponse;
@@ -26,17 +30,36 @@ public class MtaTestService {
     private final Map<String, MtaTestResponse> mtaTestStore = new ConcurrentHashMap<>();
     private final Map<String, List<MtaTestResponse>> accountMtaTests = new ConcurrentHashMap<>();
 
+    private MtaTestClient mtaTestClient;
+
     @Inject
     private EmailService emailService;
 
     @Inject
     private TransitTimeService transitTimeService;
 
+    @PostConstruct
+    public void init() {
+        mtaTestClient = new MtaTestClient();
+        logger.info("MtaTestClient initialized at {}", mtaTestClient.getServiceUrl());
+    }
+
     public MtaTestResponse scheduleMtaTest(MtaTestRequest request) {
         validateMtaTestRequest(request);
 
-        String confirmationNumber = generateConfirmationNumber();
-        String proNumber = generateProNumber();
+        MtaTestScheduleRequest clientRequest = new MtaTestScheduleRequest();
+        clientRequest.setAccountNumber(request.getAccountNumber());
+        clientRequest.setRequesterName(request.getRequesterName());
+        clientRequest.setOriginZip(request.getShipperAddress().getZipCode());
+        clientRequest.setMtaTestDate(request.getMtaTestDate());
+        clientRequest.setReadyTime(request.getReadyTime());
+        clientRequest.setCloseTime(request.getCloseTime());
+
+        MtaTestResult clientResult = mtaTestClient.scheduleMtaTest(clientRequest);
+        logger.info("MtaTestClient returned confirmation: {}", clientResult.getConfirmationNumber());
+
+        String confirmationNumber = clientResult.getConfirmationNumber();
+        String proNumber = clientResult.getProNumber() != null ? clientResult.getProNumber() : generateProNumber();
 
         Integer transitDays = null;
         if (request.getDestinationZip() != null && request.getShipperAddress() != null) {
@@ -82,14 +105,17 @@ public class MtaTestService {
                     "No mtatest found with confirmation number: " + confirmationNumber);
         }
 
+        MtaTestResult cancelResult = mtaTestClient.cancelMtaTest(confirmationNumber);
+        logger.info("MtaTestClient cancel result: {}", cancelResult.getStatus());
+
         MtaTestResponse cancelled = MtaTestResponse.builder()
                 .confirmationNumber(confirmationNumber)
-                .status("CANCELLED")
+                .status(cancelResult.getStatus())
                 .scheduledDate(existing.getScheduledDate())
                 .estimatedTimeWindow(existing.getEstimatedTimeWindow())
                 .proNumber(existing.getProNumber())
                 .serviceCenterId(existing.getServiceCenterId())
-                .message("MtaTest has been cancelled")
+                .message(cancelResult.getMessage() != null ? cancelResult.getMessage() : "MtaTest has been cancelled")
                 .build();
 
         mtaTestStore.put(confirmationNumber, cancelled);

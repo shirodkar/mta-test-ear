@@ -41,6 +41,8 @@ class MtaTestServiceTest {
 
     @BeforeEach
     void setUp() {
+        mtaTestService.init();
+
         validRequest = MtaTestRequest.builder()
                 .accountNumber("1234567")
                 .requesterName("Jane Smith")

@@ -1,5 +1,9 @@
 package com.acme.mtatest.webservice;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -89,10 +94,10 @@ class MtaTestResourceTest {
 
         Response response = mtaTestResource.scheduleMtaTest(validRequest);
 
-        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+        assertThat(response.getStatus(), is(equalTo(Response.Status.CREATED.getStatusCode())));
         MtaTestResponse entity = (MtaTestResponse) response.getEntity();
-        assertNotNull(entity.getConfirmationNumber());
-        assertEquals("SCHEDULED", entity.getStatus());
+        assertThat(entity.getConfirmationNumber(), is(notNullValue()));
+        assertThat(entity.getStatus(), is("SCHEDULED"));
         verify(recaptchaService).validateToken("valid-token");
     }
 
@@ -150,6 +155,7 @@ class MtaTestResourceTest {
         assertEquals("CANCELLED", entity.getStatus());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void getMtaTestsByAccount_returnsOk() {
         List<MtaTestResponse> mockList = Arrays.asList(
@@ -160,6 +166,10 @@ class MtaTestResourceTest {
 
         Response response = mtaTestResource.getMtaTestsByAccount("1234567");
 
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        Map<String, Object> envelope = (Map<String, Object>) response.getEntity();
+        assertThat(envelope.get("success"), is(true));
+        List<MtaTestResponse> data = (List<MtaTestResponse>) envelope.get("data");
+        assertThat(data.size(), is(2));
     }
 }

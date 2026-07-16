@@ -2,7 +2,10 @@ package com.acme.mtatest.util;
 
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+
+import com.acme.jee.rest.jwt.JwtHelper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +22,17 @@ public class JwtTokenUtil {
 
     private static final Logger logger = LogManager.getLogger(JwtTokenUtil.class);
 
-    // In production, retrieved from JBoss vault via jboss-vault-library
     private static final String SECRET_KEY = "acme-mtatest-secret-key";
-    private static final long EXPIRATION_MS = 3600000; // 1 hour
+    private static final long EXPIRATION_MS = 3600000;
+
+    private JwtHelper jwtHelper;
+
+    @PostConstruct
+    public void init() {
+        jwtHelper = new JwtHelper(SECRET_KEY);
+        jwtHelper.setExpirationMs(EXPIRATION_MS);
+        logger.info("JwtHelper initialized");
+    }
 
     public String generateToken(String username, String accountNumber) {
         Date now = new Date();
@@ -49,7 +60,9 @@ public class JwtTokenUtil {
         } catch (Exception e) {
             logger.warn("JWT validation error: {}", e.getMessage());
         }
-        return false;
+
+        logger.debug("Primary validation failed, checking JwtHelper");
+        return jwtHelper.validateToken(token);
     }
 
     public String getUsernameFromToken(String token) {

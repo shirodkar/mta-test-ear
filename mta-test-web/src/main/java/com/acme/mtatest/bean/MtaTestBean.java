@@ -1,6 +1,7 @@
 package com.acme.mtatest.bean;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -8,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.acme.environment.api.EnvironmentService;
+import com.acme.environment.client.EnvironmentClientImpl;
 import com.acme.mtatest.exception.MtaTestException;
 import com.acme.mtatest.model.MtaTestRequest;
 import com.acme.mtatest.model.MtaTestResponse;
@@ -15,6 +18,7 @@ import com.acme.mtatest.model.ShipperAddress;
 import com.acme.mtatest.service.MtaTestService;
 import com.acme.mtatest.service.RecaptchaService;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +28,8 @@ public class MtaTestBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(MtaTestBean.class);
+
+    private final EnvironmentService environmentService = new EnvironmentClientImpl();
 
     @Inject
     private MtaTestService mtaTestService;
@@ -42,6 +48,7 @@ public class MtaTestBean implements Serializable {
 
     public String submitMtaTest() {
         try {
+            logger.info("Submitting mtatest in environment: {}", environmentService.getEnvironmentName());
             response = mtaTestService.scheduleMtaTest(request);
             return "/pages/confirmation?faces-redirect=true";
         } catch (MtaTestException e) {
@@ -71,8 +78,14 @@ public class MtaTestBean implements Serializable {
     }
 
     public String cancel() {
-        request = new MtaTestRequest();
-        request.setShipperAddress(new ShipperAddress());
+        MtaTestRequest freshRequest = new MtaTestRequest();
+        freshRequest.setShipperAddress(new ShipperAddress());
+        try {
+            BeanUtils.copyProperties(request, freshRequest);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.warn("BeanUtils copy failed, resetting manually: {}", e.getMessage());
+            request = freshRequest;
+        }
         return "/index?faces-redirect=true";
     }
 

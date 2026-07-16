@@ -17,6 +17,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import com.acme.ecommerce.transittime.TransitTimeClient;
+import com.acme.ecommerce.transittime.TransitTimeResult;
 import com.acme.mtatest.model.TransitTimeResponse;
 import com.acme.mtatest.exception.MtaTestException;
 
@@ -31,6 +33,7 @@ public class TransitTimeService {
             "transittime.api.url", "http://localhost:8180");
 
     private ResteasyClient resteasyClient;
+    private TransitTimeClient transitTimeClient;
 
     @PostConstruct
     public void init() {
@@ -39,7 +42,9 @@ public class TransitTimeService {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectionPoolSize(10)
                 .build();
+        transitTimeClient = new TransitTimeClient();
         logger.info("RESTEasy client initialized for transit time API at {}", TRANSIT_TIME_API_BASE);
+        logger.info("TransitTimeClient initialized at {}", transitTimeClient.getServiceUrl());
     }
 
     @PreDestroy
@@ -66,7 +71,22 @@ public class TransitTimeService {
             return remoteResult;
         }
 
-        logger.info("Remote transit time API unavailable, using local calculation");
+        logger.info("Remote transit time API unavailable, falling back to TransitTimeClient");
+
+        try {
+            TransitTimeResult clientResult = transitTimeClient.getTransitTime(
+                    originZip, destinationZip, shipDate != null ? shipDate : new Date());
+            return TransitTimeResponse.builder()
+                    .transitDays(clientResult.getTransitDays())
+                    .estimatedDeliveryDate(clientResult.getEstimatedDeliveryDate())
+                    .originServiceCenter(clientResult.getOriginServiceCenter())
+                    .destinationServiceCenter(clientResult.getDestinationServiceCenter())
+                    .serviceType(clientResult.getServiceType())
+                    .build();
+        } catch (Exception e) {
+            logger.info("TransitTimeClient unavailable: {}, using local calculation", e.getMessage());
+        }
+
         int transitDays = calculateTransitDays(originZip, destinationZip);
 
         Date estimatedDelivery = calculateDeliveryDate(

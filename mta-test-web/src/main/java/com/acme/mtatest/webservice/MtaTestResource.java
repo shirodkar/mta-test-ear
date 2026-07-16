@@ -1,5 +1,9 @@
 package com.acme.mtatest.webservice;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -13,11 +17,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.acme.jee.rest.util.ApiResponseUtil;
 import com.acme.mtatest.model.MtaTestRequest;
 import com.acme.mtatest.model.MtaTestResponse;
 import com.acme.mtatest.service.MtaTestService;
 import com.acme.mtatest.service.RecaptchaService;
 import com.acme.mtatest.exception.MtaTestException;
+
+import org.json.JSONObject;
+import org.json.simple.JSONValue;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -102,6 +110,24 @@ public class MtaTestResource {
             @QueryParam("accountNumber") String accountNumber) {
         logger.info("Retrieving mtaTests for account: {}", accountNumber);
 
-        return Response.ok(mtaTestService.getMtaTestsByAccount(accountNumber)).build();
+        List<MtaTestResponse> mtaTests = mtaTestService.getMtaTestsByAccount(accountNumber);
+
+        JSONObject metadata = new JSONObject();
+        metadata.put("account", accountNumber);
+        metadata.put("count", mtaTests.size());
+
+        Map<String, Object> logData = new HashMap<>();
+        logData.put("account", accountNumber);
+        logData.put("resultCount", mtaTests.size());
+        logger.debug("MtaTest query result: {}", JSONValue.toJSONString(logData));
+
+        ApiResponseUtil.ApiResponse<List<MtaTestResponse>> apiResponse = ApiResponseUtil.success(mtaTests);
+
+        Map<String, Object> envelope = new HashMap<>();
+        envelope.put("success", apiResponse.isSuccess());
+        envelope.put("data", apiResponse.getData());
+        envelope.put("metadata", metadata.toMap());
+
+        return Response.ok(envelope).build();
     }
 }

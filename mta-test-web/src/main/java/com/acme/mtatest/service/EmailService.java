@@ -1,6 +1,14 @@
 package com.acme.mtatest.service;
 
+import java.util.Collections;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+
+import com.acme.email.ODEmailSender;
+import com.acme.enterprise.email.client.SystemEmailClient;
+import com.acme.enterprise.email.wsdl.EmailRequest;
+import com.acme.enterprise.email.wsdl.EmailResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,11 +18,40 @@ public class EmailService {
 
     private static final Logger logger = LogManager.getLogger(EmailService.class);
 
+    private SystemEmailClient systemEmailClient;
+    private ODEmailSender odEmailSender;
+
+    @PostConstruct
+    public void init() {
+        systemEmailClient = new SystemEmailClient();
+        odEmailSender = new ODEmailSender();
+        odEmailSender.setFromAddress("noreply@acme.com");
+        logger.info("Email service initialized with SystemEmailClient and ODEmailSender");
+    }
+
     public void sendEmail(String to, String subject, String body) {
-        // In production, this delegates to the ODEmail / system-email-client libraries
-        // which handle SMTP configuration and email delivery through the ACME mail system
         logger.info("Sending email to: {}, subject: {}", to, subject);
-        logger.debug("Email body: {}", body);
+
+        try {
+            EmailRequest request = new EmailRequest();
+            request.setTo(Collections.singletonList(to));
+            request.setFrom("noreply@acme.com");
+            request.setSubject(subject);
+            request.setBody(body);
+            request.setContentType("text/plain");
+
+            EmailResponse response = systemEmailClient.sendEmail(request);
+            if (response.isSuccess()) {
+                logger.info("Email sent via SystemEmailClient, messageId: {}", response.getMessageId());
+                return;
+            }
+            logger.warn("SystemEmailClient failed: {}", response.getErrorMessage());
+        } catch (Exception e) {
+            logger.warn("SystemEmailClient unavailable: {}", e.getMessage());
+        }
+
+        odEmailSender.sendEmail(to, subject, body);
+        logger.info("Email sent via ODEmailSender fallback");
     }
 
     public void sendMtaTestConfirmation(String to, String confirmationNumber, String proNumber) {

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.acme.mtatest.util.JwtTokenUtil;
+import com.acme.web.framework.WebHelper;
+import com.acme.web.security.WebSecurityFilter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,9 +30,14 @@ public class SecurityFilter implements Filter {
     @Inject
     private JwtTokenUtil jwtTokenUtil;
 
+    private WebSecurityFilter webSecurityFilter;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("Security filter initialized");
+        webSecurityFilter = new WebSecurityFilter();
+        webSecurityFilter.setCsrfEnabled(true);
+        webSecurityFilter.setXssProtectionEnabled(true);
+        logger.info("Security filter initialized with context path: {}", WebHelper.getContextPath());
     }
 
     @Override
@@ -39,9 +46,13 @@ public class SecurityFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        String path = httpRequest.getRequestURI();
+        String path = webSecurityFilter.sanitizeInput(httpRequest.getRequestURI());
 
-        // Allow public endpoints without authentication
+        boolean isAjax = WebHelper.isAjaxRequest(httpRequest.getHeader("X-Requested-With"));
+        if (isAjax) {
+            logger.debug("AJAX request detected for path: {}", path);
+        }
+
         if (isPublicEndpoint(path) || "OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
             chain.doFilter(request, response);
             return;

@@ -1,7 +1,7 @@
 package com.acme.mtatest.service;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.acme.common.recaptcha.jboss.JBossRecaptchaValidator;
 import com.acme.mtatest.exception.MtaTestException;

@@ -2,8 +2,8 @@ package com.acme.mtatest.service;
 
 import java.util.Collections;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.acme.email.ODEmailSender;
 import com.acme.enterprise.email.client.SystemEmailClient;

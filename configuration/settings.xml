@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <repositories>
+                <repository>
+                    <id>acme-stubs</id>
+                    <name>ACME Stub Dependencies (bundled)</name>
+                    <url>file://${user.dir}/local-maven-repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>jboss</id>
+                    <url>https://maven.repository.redhat.com/ga/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>acme-stubs-plugins</id>
+                    <name>ACME Stub Dependencies - Plugins (bundled)</name>
+                    <url>file://${user.dir}/local-maven-repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>jboss-plugins</id>
+                    <url>https://maven.repository.redhat.com/ga/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>openshift</activeProfile>
+    </activeProfiles>
+
+</settings>

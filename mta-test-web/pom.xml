@@ -22,7 +22,7 @@
         <scm.host.url>https://git.corp.acme.com/</scm.host.url>
         <mockito.version>4.11.0</mockito.version>
         <jackson-library.version>2.16.0</jackson-library.version>
-        <resteasy.version>3.11.1.Final</resteasy.version>
+        <resteasy.version>6.2.7.Final</resteasy.version>
     </properties>
     <!-- ================================== -->
     <dependencyManagement>
@@ -200,8 +200,8 @@
             <version>2.0.4</version>
             <exclusions>
                 <exclusion>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>jsr311-api</artifactId>
+                    <groupId>jakarta.ws.rs</groupId>
+                    <artifactId>jakarta-ws-rs-api</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
@@ -267,29 +267,6 @@
     <!-- ================================== -->
     <build>
         <plugins>
-            <plugin>
-                <groupId>io.openapitools.swagger</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>2.1.4</version>
-                <configuration>
-                    <resourcePackages>
-                        <resourcePackage>
-                            com.acme.mtatest.webservice
-                        </resourcePackage>
-                    </resourcePackages>
-                    <outputDirectory>${basedir}/target/</outputDirectory>
-                    <outputFilename>swagger</outputFilename>
-                    <outputFormats>JSON,YAML</outputFormats>
-                    <prettyPrint>true</prettyPrint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

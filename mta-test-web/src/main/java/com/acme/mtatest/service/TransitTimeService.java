@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -37,10 +37,9 @@ public class TransitTimeService {
 
     @PostConstruct
     public void init() {
-        resteasyClient = new ResteasyClientBuilder()
+        resteasyClient = (ResteasyClient) ((ResteasyClientBuilder) ResteasyClientBuilder.newBuilder())
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .connectionPoolSize(10)
                 .build();
         transitTimeClient = new TransitTimeClient();
         logger.info("RESTEasy client initialized for transit time API at {}", TRANSIT_TIME_API_BASE);

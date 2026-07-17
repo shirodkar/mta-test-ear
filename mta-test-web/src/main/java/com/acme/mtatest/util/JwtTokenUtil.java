@@ -2,8 +2,8 @@ package com.acme.mtatest.util;
 
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.acme.jee.rest.jwt.JwtHelper;
 

@@ -37,7 +37,7 @@ public class TransitTimeService {
 
     @PostConstruct
     public void init() {
-        resteasyClient = new ResteasyClientBuilder()
+        resteasyClient = ((ResteasyClientBuilder) ResteasyClientBuilder.newBuilder())
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectionPoolSize(10)

@@ -42,6 +42,8 @@
         <module>recaptcha-verifier</module>
         <module>internet-custom-jsf-taglib</module>
         <module>mta-test-external-ws-client</module>
+        <module>jt400</module>
+        <module>pdf</module>
 
         <!-- Phase 2: Depend on Phase 1 -->
         <module>common-domain</module>
